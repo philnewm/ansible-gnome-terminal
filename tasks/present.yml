@@ -1,11 +1,25 @@
 ---
 
-# tasks to install ansible-role-template
-# INFO larger roles should only use **include_tasks** here
+# tasks to install ansible-gnome-terminal
 
 
-# INFO This task may be osbolete for your use-case
 - name: Gather package facts
   ansible.builtin.package_facts:
+
+- name: Include dependencies
+  ansible.builtin.include_tasks:
+    file: dependencies.yml
+
+- name: Install gnome-terminal
+  become: true
+  when: gnome_terminal_package[ansible_os_family] not in ansible_facts.packages
+  ansible.builtin.package:
+    name: "{{ gnome_terminal_package[ansible_os_family] }}"
+    state: present
+
+- name: Cofigure profile
+  when: custom_profile
+  ansible.builtin.include_tasks:
+    file: profile.yml
 
 ...

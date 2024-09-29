@@ -1,14 +1,15 @@
 ---
 
-- name: Create and configure ansible-role-template
+- name: Create and configure ansible-gnome-terminal
   hosts: client
 
   # TODO local testing only
   # debugger: on_failed
 
   roles:
-    - role: ansible-role-template
+    - role: ansible-gnome-terminal
       tasks_from: main
-      ansible_role_template_state: present
+      gnome_terminal_state: present
+      custom_profile: true
 
 ...

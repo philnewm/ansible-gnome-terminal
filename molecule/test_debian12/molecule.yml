@@ -4,6 +4,7 @@ dependency:
 driver:
   name: vagrant
   parallel: true
+  snapshot: initial
   provider:
     name: virtualbox
     type: virtualbox
@@ -12,30 +13,8 @@ lint: |
   yamllint
   ansible-lint
 platforms:
-  - name: Alma9
-    box: philnewm/alma9.4-gnome
-    box_version: "0.1.0"
-    memory: 4096
-    cpus: 2
-    interfaces:
-      - auto_config: true
-        network_name: private_network
-        type: "static"
-        ip: "192.168.56.10"
-    provider_raw_config_args:
-      - "customize ['modifyvm', :id, '--uartmode1', 'disconnected']"
-      - "customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']"
-      - "customize ['modifyvm', :id, '--vram', '256']"
-      - "customize ['modifyvm', :id, '--accelerate-3d', 'off']"
-      - "customize ['modifyvm', :id, '--accelerate-2d-video', 'on']"
-      - "customize ['modifyvm', :id, '--defaultfrontend', 'gui']"
-      - "customize ['modifyvm', :id, '--clipboard-mode', 'bidirectional']"
-      - "customize ['modifyvm', :id, '--draganddrop', 'bidirectional']"
-      - "customize ['storagectl', :id, '--name', 'SATA Controller', '--hostiocache', 'on']"
-    groups:
-      - client
   - name: Debian12
-    box: philnewm/debian12-gnome  # philnewm/ubuntu2204-gnome
+    box: philnewm/debian12-gnome
     version: 0.1.0
     memory: 4096
     cpus: 2
@@ -43,17 +22,14 @@ platforms:
       - auto_config: true
         network_name: private_network
         type: "static"
-        ip: "192.168.56.20"
+        ip: "192.168.56.50"
     provider_raw_config_args:
       - "customize ['modifyvm', :id, '--uartmode1', 'disconnected']"
       - "customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']"
       - "customize ['modifyvm', :id, '--vram', '256']"
       - "customize ['modifyvm', :id, '--accelerate-3d', 'off']"
       - "customize ['modifyvm', :id, '--accelerate-2d-video', 'on']"
-      - "customize ['modifyvm', :id, '--defaultfrontend', 'gui']"
       - "customize ['modifyvm', :id, '--clipboard-mode', 'bidirectional']"
-      - "customize ['modifyvm', :id, '--draganddrop', 'bidirectional']"
-      - "customize ['storagectl', :id, '--name', 'SATA Controller', '--hostiocache', 'on']"
     groups:
       - client
 provisioner:
@@ -68,10 +44,6 @@ provisioner:
     side_effect: ../default/side_effect.yml
     verify: ../default/verify.yml
     cleanup: ../default/cleanup.yml
-  inventory:
-    group_vars:
-      all:
-        ansible_python_interpreter: /usr/bin/python3
   config_options:
     defaults:
       diff: True
@@ -82,7 +54,6 @@ provisioner:
       stdout_callback: debug
       callbacks_enabled: ansible.posix.profile_tasks
     connection:
-      # WARNING disable "requiretty" in hosts sudoers file on case of errors
       pipelining: true
     env:
       ANSIBLE_FORCE_COLOR: "true"

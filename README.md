@@ -1,22 +1,16 @@
-## Role Name
+# Gnome-Terminal
 
-[![ci-testing](https://github.com/philnewm/ansible-role-template/actions/workflows/molecule-ci.yml/badge.svg)](https://github.com/philnewm/ansible-role-template/actions/workflows/molecule-ci.yml)
+[![Alma9-CI](https://github.com/philnewm/ansible-gnome-terminal/actions/workflows/alma9-ci.yml/badge.svg)](https://github.com/philnewm/ansible-gnome-terminal/actions/workflows/alma9-ci.yml)  [![Debian12-CI](https://github.com/philnewm/ansible-gnome-terminal/actions/workflows/debian12-ci.yml/badge.svg)](https://github.com/philnewm/ansible-gnome-terminal/actions/workflows/debian12-ci.yml)
 
 Role description
 
+This role includes a full vagrant based molecule testing setup at `molecule/default`
 
+## Structure
 
-This role includes a full vagrant based molecule testing setup at `extensions/molecule/default`
-
-# Structure
-
-```
-📦 ansible-role-template
+```code
+📦 ansible-gnome-terminal
  ┣ 📂 defaults
- ┃ ┗ 📜 main.yml
-  ┣ 📂 files
- ┃ ┗ 📜 file_placeholder.yml
- ┣ 📂 handlers
  ┃ ┗ 📜 main.yml
  ┣ 📂 meta
  ┃ ┗ 📜 main.yml
@@ -27,10 +21,9 @@ This role includes a full vagrant based molecule testing setup at `extensions/mo
  ┃ ┣ 📜 main.yml
  ┃ ┣ 📜 present.yml
  ┃ ┣ 📜 dependencies.yml
+ ┃ ┣ 📜 profile.yml
  ┃ ┣ 📜 absent.yml
  ┃ ┗ 📜 init.yml
- ┣ 📂 templates
- ┃ ┗ ⛩️ template.j2
  ┣ 📂 vars
  ┃ ┗ 📜 main.yml
  ┗ 🗒️ README.md
@@ -38,47 +31,44 @@ This role includes a full vagrant based molecule testing setup at `extensions/mo
 
 ```
 
-Describe and explain role structure. 
+Describe and explain role structure.
 
 ## Requirements
 
-Ellaborate external dependencies and how to use them.
+This role needs an installed gnome desktop environment to be functional.
 
 ## Role Variables
 
 * defaults/main.yml
-  * first_var
-  * sec_var
-  * third_var
+  * gnome_terminal_package - terminal package name per linux os family
+  * custom_profile - custom profile switch
+  * terminal_profile_uuid - expected custom profile uuid
+  * gnome_terminal_settings - general terminal settings
+  * terminal_profile_path - profile dconf path contructed using `terminal_profile_uuid`
+  * terminal_profile_settings - profile specific settings
 * vars/main.yml
-  * first_var
-  * sec_var
-  * third_var
-
+  * dependencies - to enable all features of this role
 
 ## Dependencies
 
-List role ansible-galaxy dependencies - if any.
+This role doesn't depend on any additional ansible-galaxy roles
 
 ## Example Playbook
 
-Add an example playbook
 ```yaml
 ---
 
 tasks:
-  - name: Include ansible-role-template present
+  - name: Include ansible-gnome-terminal present
     ansible.builtin.include_role:
-      name: ansible-role-template
+      name: ansible-gnome-terminal
     vars:
-      ansible_role_template_state: present
+      gnome_terminal_state: present
+      custom_profile: true
 
 ...
 ```
+
 ## License
 
 Add license - if any.
-
-## Changes to role template
-
-* Add github action that flags empty directories on release creation

@@ -1,9 +1,9 @@
 galaxy_info:
-  role_name: ansible_role_template
-  author: author_name
-  description: ansible-role-template description
+  role_name: gnome_terminal
+  author: philnewm
+  description: Install and configure the gnome-terminal.
 
-  license: some_license
+  license: MIT
 
   min_ansible_version: "2.1"
 
@@ -11,6 +11,9 @@ galaxy_info:
   - name: EL
     versions:
     - "9"
+  - name: Debian
+    version:
+    - "bookworm"
 
   galaxy_tags: []
 

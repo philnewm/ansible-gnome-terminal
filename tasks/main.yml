@@ -1,10 +1,10 @@
 ---
 
-# tasks file for ansible-role-template
+# tasks file for ansible-gnome-terminal
 
 
-- name: "Desired state is {{ ansible_role_template_state }}"
+- name: "Desired state is {{ gnome_terminal_state }}"
   ansible.builtin.include_tasks:
-    file: "{{ ansible_role_template_state }}.yml"
+    file: "{{ gnome_terminal_state }}.yml"
 
 ...

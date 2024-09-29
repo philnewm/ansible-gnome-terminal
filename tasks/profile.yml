@@ -1,0 +1,18 @@
+---
+
+# configure custom terminal profile
+
+
+- name: Configure gnome-terminal settings
+  loop: "{{ gnome_terminal_settings | dict2items }}"
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value | string }}"
+
+- name: Configure terminal profile
+  loop: "{{ terminal_profile_settings | dict2items }}"
+  community.general.dconf:
+    key: "{{ terminal_profile_path }}/{{ item.key }}"
+    value: "{{ item.value | string }}"
+
+...

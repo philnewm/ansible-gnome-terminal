@@ -10,8 +10,8 @@
   tasks:
     # TODO check if VM even exists
   roles:
-    - role: ansible-role-template
-      ansible_role_template_state: absent
+    - role: ansible-gnome-terminal
+      gnome_terminal_state: absent
 
 - name: Cleanup
   hosts: localhost

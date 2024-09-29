@@ -6,10 +6,57 @@
   tasks:
     - name: Initialize role library
       ansible.builtin.include_role:
-        name: ansible-role-template
+        name: ansible-gnome-terminal
         tasks_from: init
 
     - name: Gather package facts
       ansible.builtin.package_facts:
+
+    - name: Test installed package
+      ansible.builtin.assert:
+        that:
+          - gnome_terminal_package[ansible_os_family] in ansible_facts.packages
+        fail_msg: "Package '{{ gnome_terminal_package[ansible_os_family] }}' is not installed"
+        quiet: true
+
+    - name: Get terminal settings
+      loop: "{{ gnome_terminal_settings.keys() }}"
+      community.general.dconf:
+        key: "{{ item }}"
+        state: read
+      register: dconf_list
+
+    - name: Test terminal settings
+      loop: "{{ dconf_list.results }}"
+      loop_control:
+        loop_var: entry
+        label: "{{ entry.item }}"
+      ansible.builtin.assert:
+        that:
+          - entry.value | string == gnome_terminal_settings[entry.item] | string
+        fail_msg: |
+          "Expected value '{{ gnome_terminal_settings[entry.item] }}'
+          but got '{{ entry.value }}' instead for key '{{ entry.item }}'."
+        quiet: true
+
+    - name: Get terminal profile settings
+      loop: "{{ terminal_profile_settings.keys() }}"
+      community.general.dconf:
+        key: "{{ terminal_profile_path }}/{{ item }}"
+        state: read
+      register: profile_settings
+
+    - name: Test terminal profile settings
+      loop: "{{ profile_settings.results }}"
+      loop_control:
+        loop_var: entry
+        label: "{{ entry.item }}"
+      ansible.builtin.assert:
+        that:
+          - entry.value | string == terminal_profile_settings[entry.item] | string
+        fail_msg: |
+          "Expected value '{{ terminal_profile_settings[entry.item] }}'
+          but got '{{ entry.value }}' instead for key '{{ entry.item }}'."
+        quiet: true
 
 ...

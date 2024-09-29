@@ -1,7 +1,14 @@
 ---
 
-# Tasks to remove ansible-role-template
+# Tasks to remove ansible-gnome-terminal
 
+
+- name: Reomve gnome-terminal
+  become: true
+  when: gnome_terminal_package[ansible_os_family] in ansible_facts.packages
+  ansible.builtin.package:
+    name: "{{ gnome_terminal_package[ansible_os_family] }}"
+    state: absent
 
 - name: Remove unused dependencies
   become: true
