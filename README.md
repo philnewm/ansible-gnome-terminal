@@ -63,7 +63,6 @@ tasks:
     ansible.builtin.include_role:
       name: ansible-gnome-terminal
     vars:
-      gnome_terminal_state: present
       custom_profile: true
 
 ...

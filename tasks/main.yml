@@ -3,8 +3,8 @@
 # tasks file for ansible-gnome-terminal
 
 
-- name: "Desired state is {{ gnome_terminal_state }}"
+- name: "Desired state is {{ state }}"
   ansible.builtin.include_tasks:
-    file: "{{ gnome_terminal_state }}.yml"
+    file: "{{ state }}.yml"
 
 ...

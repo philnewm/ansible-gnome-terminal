@@ -2,6 +2,7 @@
 
 # Variables for ansible-gnome-terminal
 
+state: present
 
 gnome_terminal_package:
   "RedHat": gnome-terminal
